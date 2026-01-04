@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe - Multiplayer Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="game-body">
+    <!-- Animated Background Elements -->
+    <div class="background-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-5">
+        <div class="row justify-content-center w-100">
+            <div class="col-lg-8 col-md-10 col-12">
+
+                <!-- Main Menu Screen -->
+                <div id="main-menu" class="game-screen active">
+                    <div class="text-center mb-5">
+                        <h1 class="heading-title mb-3">
+                            <i class="fas fa-gamepad me-3"></i>Tic-Tac-Toe
+                        </h1>
+                        <p class="text-light opacity-75 fs-5 mb-0">
+                            <i class="fas fa-star me-2"></i>Choose your game mode and start playing!
+                        </p>
+                    </div>
+
+                    <div class="card game-card p-5 shadow-lg border-0">
+                        <div class="row g-4">
+                            <!-- Play vs Computer -->
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="mode-card" onclick="showGameMode('computer')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <h3 class="mode-title">Play vs Computer</h3>
+                                    <p class="mode-description">Challenge our AI opponent with different difficulty
+                                        levels</p>
+                                    <div class="mode-features">
+                                        <span class="feature-badge">Easy</span>
+                                        <span class="feature-badge">Medium</span>
+                                        <span class="feature-badge">Hard</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Play vs Friend -->
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="mode-card" onclick="showGameMode('friend')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-user-friends"></i>
+                                    </div>
+                                    <h3 class="mode-title">Play vs Friend</h3>
+                                    <p class="mode-description">Play locally with a friend on the same device</p>
+                                    <div class="mode-features">
+                                        <span class="feature-badge">Local</span>
+                                        <span class="feature-badge">2 Players</span>
+                                        <span class="feature-badge">Turn-based</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Online Multiplayer -->
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="mode-card" onclick="showGameMode('online')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <h3 class="mode-title">Online Multiplayer</h3>
+                                    <p class="mode-description">Play with friends online in real-time</p>
+                                    <div class="mode-features">
+                                        <span class="feature-badge">Real-time</span>
+                                        <span class="feature-badge">Global</span>
+                                        <span class="feature-badge">Chat</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tournament Mode -->
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="mode-card" onclick="showGameMode('tournament')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <h3 class="mode-title">Tournament Mode</h3>
+                                    <p class="mode-description">Compete in tournaments with multiple players</p>
+                                    <div class="mode-features">
+                                        <span class="feature-badge">Brackets</span>
+                                        <span class="feature-badge">Leaderboard</span>
+                                        <span class="feature-badge">Rewards</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Computer Game Setup -->
+                <div id="computer-setup" class="game-screen">
+                    <div class="text-center mb-4">
+                        <h2 class="heading-title mb-3">
+                            <i class="fas fa-robot me-3"></i>Play vs Computer
+                        </h2>
+                        <p class="text-light opacity-75 fs-5">Choose your difficulty level</p>
+                    </div>
+
+                    <div class="card game-card p-4 shadow-lg border-0">
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">Difficulty Level:</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="btn btn-outline-light difficulty-btn active" data-difficulty="easy">
+                                        <i class="fas fa-baby me-2"></i>Easy
+                                    </button>
+                                    <button class="btn btn-outline-light difficulty-btn" data-difficulty="medium">
+                                        <i class="fas fa-user me-2"></i>Medium
+                                    </button>
+                                    <button class="btn btn-outline-light difficulty-btn" data-difficulty="hard">
+                                        <i class="fas fa-brain me-2"></i>Hard
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">You play as:</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-danger player-btn active" data-player="x">
+                                        <i class="fas fa-times me-2"></i>(First)
+                                    </button>
+                                    <button class="btn btn-outline-info player-btn" data-player="o">
+                                        <i class="fas fa-circle me-2"></i>(Second)
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">Who goes first?</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-light first-btn active" data-first="player">
+                                        <i class="fas fa-user me-2"></i>Player First
+                                    </button>
+                                    <button class="btn btn-outline-light first-btn" data-first="ai">
+                                        <i class="fas fa-robot me-2"></i>AI First
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary btn-lg flex-fill" onclick="startComputerGame()">
+                                <i class="fas fa-play me-2"></i>Start Game
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="showMainMenu()">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Setup -->
+                <div id="online-setup" class="game-screen">
+                    <div class="text-center mb-4">
+                        <h2 class="heading-title mb-3">
+                            <i class="fas fa-globe me-3"></i>Online Multiplayer
+                        </h2>
+                        <p class="text-light opacity-75 fs-5">Create a room and share the code with your friend</p>
+                    </div>
+
+                    <div class="card game-card p-4 shadow-lg border-0">
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">Room Name:</label>
+                                <input type="text" class="form-control form-control-lg" id="room-name"
+                                    placeholder="Enter room name" maxlength="24">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">Create a Room:</label>
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <button class="btn btn-outline-light" onclick="createRoom()">
+                                        <i class="fas fa-plus me-2"></i>Create Room
+                                    </button>
+                                    <div id="created-room" class="ms-2 d-none">
+                                        <span class="badge bg-info text-dark me-2">Code:</span>
+                                        <span id="created-room-code"
+                                            class="badge bg-light text-dark fs-6 user-select-all" role="button"
+                                            title="Click to copy"></span>
+                                        <span class="text-light ms-2">Share this code with your friend.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-light fw-bold">Join a Room:</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <input type="text" class="form-control" id="join-code" placeholder="Enter Room Code"
+                                        style="width: 180px;">
+                                    <button class="btn btn-outline-light" onclick="joinRoomByCode()">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Join with Code
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary btn-lg flex-fill" onclick="startOnlineGame()">
+                                <i class="fas fa-play me-2"></i>Start Online Game
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="showMainMenu()">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Screen -->
+                <div id="game-screen" class="game-screen">
+                    <!-- Header Section -->
+                    <div class="text-center mb-4">
+                        <h1 class="heading-title mb-3">
+                            <i class="fas fa-gamepad me-3"></i>Tic-Tac-Toe
+                        </h1>
+                        <div class="game-info">
+                            <span class="game-mode-badge" id="game-mode-badge">
+                                <i class="fas fa-robot me-1"></i>vs Computer
+                            </span>
+                            <span class="difficulty-badge" id="difficulty-badge">Easy</span>
+                            <span class="game-mode-badge d-none" id="room-name-badge">
+                                <i class="fas fa-door-open me-1"></i><span id="room-name-text"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Game Card -->
+                    <div class="card game-card p-4 shadow-lg border-0" id="game-card">
+                        <!-- Status Display -->
+                        <div id="status" class="alert alert-primary text-center mb-4 shadow-sm border-0">
+                            <i class="fas fa-play-circle me-2"></i>
+                            <span id="status-text">Player X's turn</span>
+                        </div>
+
+                        <!-- Game Board -->
+                        <div class="board-container mb-4">
+                            <div id="board" class="d-grid gap-3 mx-auto"></div>
+                        </div>
+
+                        <!-- Game Controls -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3">
+                            <button id="reset-btn" class="btn btn-lg btn-primary shadow px-5 py-3 fs-5 fw-bold">
+                                <i class="fas fa-redo me-2"></i>Restart Game
+                            </button>
+                            <button id="new-game-btn" class="btn btn-lg btn-outline-light shadow px-4 py-3 fs-5">
+                                <i class="fas fa-plus me-2"></i>New Game
+                            </button>
+                            <button id="menu-btn" class="btn btn-lg btn-outline-warning shadow px-4 py-3 fs-5">
+                                <i class="fas fa-home me-2"></i>Main Menu
+                            </button>
+                        </div>
+
+                        <!-- Score Display -->
+                        <div class="row mt-4 text-center">
+                            <div class="col-6">
+                                <div class="score-card bg-primary bg-opacity-25 rounded-3 p-3">
+                                    <h6 class="text-light mb-1"><i class="fas fa-times me-1"></i>Player X</h6>
+                                    <span class="fs-4 fw-bold text-primary" id="score-x">0</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="score-card bg-info bg-opacity-25 rounded-3 p-3">
+                                    <h6 class="text-light mb-1"><i class="fas fa-circle me-1"></i>Player O</h6>
+                                    <span class="fs-4 fw-bold text-info" id="score-o">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="text-center mt-4">
+                        <p class="text-light opacity-50 small">
+                            <i class="fas fa-heart text-danger me-1"></i>
+                            Made by B.Hemanth Reddy
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-body text-center p-4">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5 id="loading-text">Connecting to server...</h5>
+                    <p class="text-muted">Please wait while we set up your game</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rematch Modal -->
+    <div class="modal fade" id="rematchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title"><i class="fas fa-rotate-right me-2"></i>Rematch?</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Do you want to play another round with the same settings?</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button id="rematch-no" type="button" class="btn btn-outline-light"
+                        data-bs-dismiss="modal">No</button>
+                    <button id="rematch-yes" type="button" class="btn btn-primary">Yes, Rematch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="src/tic-tac-toe.js"></script>
+    <script src="src/rl-agent.js"></script>
+    <script src="src/ai-player.js"></script>
+    <script src="src/online-game.js"></script>
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
