@@ -482,7 +482,7 @@ function updateStatus() {
                 particleCount: 200,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57']
+                colors: ['#00f2fe', '#8b5cf6', '#ff2a6d', '#00ff9d', '#38bdf8']
             });
             gameState.confettiFired = true;
         }
@@ -503,7 +503,7 @@ function updateStatus() {
         const currentPlayer = gameState.game.getCurrentPlayerSymbol().toUpperCase();
         elements.statusText.textContent = `Player ${currentPlayer}'s turn`;
         elements.status.className = 'alert alert-primary text-center mb-4 shadow-sm border-0';
-        statusIcon.className = 'fas fa-play-circle me-2';
+        statusIcon.className = 'fas fa-circle-play me-2';
         gameState.confettiFired = false;
     }
 }
